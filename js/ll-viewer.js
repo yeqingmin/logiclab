@@ -14,12 +14,12 @@ let invisMaterial = new THREE.MeshBasicMaterial({
     color: 'blue',
     transparent: true,
     wireframe: false,
-    opacity: .001
+    opacity: .1
 })
 
 hbox.material = invisMaterial;
 let raycastScene = new THREE.Scene();
-scene.add(raycastScene);
+//scene.add(raycastScene);
 meshes.forEach(m=>{
     let bx = hbox.clone();
     let bounds = new THREE.Box3().setFromObject(m);
@@ -69,6 +69,7 @@ dragPlane.geometry.rotateX(Math.PI * -.5)
 let raycast = (eventType,event)=>{
     onPointerMove(eventType, event);
     raycaster.setFromCamera(pointer, camera);
+    raycastScene.updateMatrixWorld(true);
     raycastScene.traverse(e=>{
         if (e.saveMaterial) {
             e.material = e.saveMaterial;

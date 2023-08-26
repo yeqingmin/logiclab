@@ -62,19 +62,18 @@ const cube = new THREE.Mesh(geometry,material);
 
 const params = {
     threshold: 1.,
-    strength: 1,
+    strength: .5,
     radius: 0,
     exposure: 1
 };
 
 let bloomSize = new THREE.Vector2(window.innerWidth,window.innerHeight);
-//bloomSize.multiplyScalar(.25)
-const bloomPass = new UnrealBloomPass(bloomSize,1.5,0.4,0.85);
+const bloomPass = new UnrealBloomPass(bloomSize,params.strength,params.radius,params.threshold);
 bloomPass.threshold = params.threshold;
 bloomPass.strength = params.strength;
 bloomPass.radius = params.radius;
 bloomPass.setSize(2000,1000)
-
+renderer.toneMappingExposure=params.exposure;
 tweakpane.addInput(bloomPass, 'threshold', {
     min: 0.,
     max: 5
@@ -89,7 +88,7 @@ tweakpane.addInput(bloomPass, 'radius', {
     step:.0001,
 })
 tweakpane.addInput(params, 'exposure', {
-    min: -4.,
+    min: .5,
     max: 4
 }).on('change', (e)=>{
     renderer.toneMappingExposure = Math.pow(params.exposure, e.value);
