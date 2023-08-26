@@ -14,7 +14,7 @@ events.listen('click', (e,{object,event})=>{
         }
         
         if(lastClicked){
-            console.log(`{pin0:'${lastClicked}',pin1:'${ename}',hidden:true},`)
+            //console.log(`{pin0:'${lastClicked}',pin1:'${ename}',hidden:true},`)
             lastClicked = undefined;
         }else lastClicked = object.userData.elementName
     }
@@ -26,7 +26,7 @@ events.listen('click', (e,{object,event})=>{
             if(((wi.pin0==ename)||(wi.pin1==ename)) && (!wi.hidden))
                 deadPool.push(wi);
         deadPool.forEach(wi=>removeWire(wi));
-        console.log("clicked:",ename)
+        //console.log("clicked:",ename)
     }
 }
 )
@@ -115,8 +115,11 @@ events.listen('drag', (e,{object, delta, hilightedObject})=>{
             dragWire = new wires.Wire(object.position,end);
         } else {
             dragWire.end.copy(end);
-            if (hilightedObject)
-                dragWire.end.copy(hilightedObject.position)
+            if (hilightedObject){
+                let obj = model.components[hilightedObject.userData.elementName];
+                if(obj && obj.type=='PIN')
+                    dragWire.end.copy(hilightedObject.position)
+            }
             dragWire.needsUpdate = true;
         }
     }
@@ -126,7 +129,10 @@ events.listen('drag', (e,{object, delta, hilightedObject})=>{
 
 events.listen('drop', (e,{object, delta, hilightedObject})=>{
     if (dragWire) {
-        if (hilightedObject && (object !== hilightedObject)) {
+        let isValidWire = (object !== hilightedObject) && 
+            hilightedObject && 
+            model.components[hilightedObject.userData.elementName]?.type=='PIN';
+        if (isValidWire) {
             dragWire.pin0 = object.userData.elementName;
             dragWire.pin1 = hilightedObject.userData.elementName;
             dragWire.setEnd(hilightedObject.position)
