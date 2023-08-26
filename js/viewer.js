@@ -15,7 +15,7 @@ THREE.DefaultLoadingManager.onLoad=
 THREE.DefaultLoadingManager.onProgress=(a,b,c)=>{
     loadCount++
     loader.innerText='lloading...'.slice(0,8+(loadCount%4))
-    console.log(loader.innerText)
+    //console.log(loader.innerText)
 }
 THREE.DefaultLoadingManager.onError=(a,b,c)=>{
     loader.innerText='error:'+a+b+c;
@@ -241,6 +241,7 @@ let start=()=>{
     document.body.appendChild(renderer.domElement);
     resize();
     window.addEventListener('resize', resize);
+    renderer.compile(scene,camera);
     renderer.setAnimationLoop(render);
 }
 

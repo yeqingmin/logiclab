@@ -67,6 +67,8 @@ dragPlane.geometry.rotateX(Math.PI * -.5)
 
 // update the picking ray with the camera and pointer position
 let raycast = (eventType,event)=>{
+    if(event.target!==renderer.domElement)
+        return;
     onPointerMove(eventType, event);
     raycaster.setFromCamera(pointer, camera);
     raycastScene.updateMatrixWorld(true);
@@ -123,7 +125,7 @@ let raycast = (eventType,event)=>{
             }
         }
     }
-
+    event.preventDefault()
 }
 
 controls.minAzimuthAngle = controls.maxAzimuthAngle = 0;
