@@ -75,6 +75,14 @@ let nodesByName = {}
 meshes.forEach(m=>nodesByName[m.name] = m)
 let pins = Object.entries(nodesByName).filter(([key,value])=>key.startsWith('PIN')).map(e=>e[1]);
 
+let debug={
+    debug:false
+}
+
+const dbgbtn = tweakpane.addInput(debug,'debug')
+dbgbtn.on('change',(v)=>{
+    dbgElem.style.display = v.value?'':'none'
+})
 const btn = tweakpane.addButton({
     title: 'test',
     label: 'test',
@@ -348,6 +356,14 @@ events.onframe = ()=>{
     simulate();
 }
 
+let dbgElem = loader;
+Object.assign(dbgElem.style,{
+    position: 'absolute',
+    left:'50px',
+    top:'50px',
+    zIndex:10,
+    display:'none'
+})
 
 let simFrame = 0;
 let simulate=()=>{
@@ -373,7 +389,8 @@ let simulate=()=>{
     let hadUpdate = true;
 
     if(co.SWITCH000 && ( ! co.SWITCH000.closed))
-        hadUpdate = false;    
+        hadUpdate = false;
+    let log = []
     while(hadUpdate){
         hadUpdate = false;
         let touchedGates={}
@@ -406,8 +423,8 @@ let simulate=()=>{
             frames[to] = ftime;
             if(cto.type=='LED')
                 setGlow(to, !!sig);
-            
-            //console.log(from,'-->',to,simFrame)
+            debug.debug && log.push(`${from}-->${to},${sig},${simFrame}`)
+            //console.log()
         }
         //Update the gates...
         if(!hadUpdate){
@@ -423,6 +440,9 @@ let simulate=()=>{
                         hadUpdate = true;
                     }
                 }
+            }
+            if(!hadUpdate){
+                debug.debug && (dbgElem.innerText=log.join('\n'));
             }
         }
     }
