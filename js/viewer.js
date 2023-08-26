@@ -9,11 +9,29 @@ import Stats from 'three/addons/libs/stats.module'
 //import Draggable from "./draggable.js"
 //import {SkeletonHelper} from 'three/addons/helpers/SkeletonHelper.js';
 
-const tweakpane = new Tweakpane.Pane({//container: document.querySelector('#tweakpane'),
+let loadCount=0;
+THREE.DefaultLoadingManager.onStart=
+THREE.DefaultLoadingManager.onLoad=
+THREE.DefaultLoadingManager.onProgress=(a,b,c)=>{
+    loadCount++
+    loader.innerText='lloading...'.slice(0,8+(loadCount%4))
+    console.log(loader.innerText)
+}
+THREE.DefaultLoadingManager.onError=(a,b,c)=>{
+    loader.innerText='error:'+a+b+c;
+    loader.style.color='red'
+}
+
+let tweakpane = new Tweakpane.Pane({//container: document.querySelector('#tweakpane'),
 });
 //Draggable(tweakpane.element)
 tweakpane.element.parentElement.style.zIndex = 10;
+
+let folder = tweakpane.addFolder({title:'options',expanded:false});
+
+tweakpane = folder;
 tweakpane.Pane = Tweakpane.Pane;
+
 let urlparams = new URLSearchParams(window.location.search);
 const loadGLTF = (path)=>{
     return new Promise((resolve,reject)=>{
@@ -35,21 +53,19 @@ scene.add(camera);
 camera.position.z = 2;
 
 const stats = new Stats()
-document.body.appendChild(stats.dom)
+//document.body.
+folder.element.children[2].appendChild(stats.dom)
 stats.dom.style.left = '40px';
 stats.dom.style.top = '40px';
 
-//Draggable(stats.dom)
-//let skeletonHelper = new SkeletonHelper();
-
 const renderer = new THREE.WebGLRenderer({
-    alpha: true
+    alpha: true,
+    antialias: true
 });
 
 //if(window.devicePixelRatio>1)
 //    renderer.setPixelRatio(1);//window.devicePixelRatio * 2.);
 
-document.body.appendChild(renderer.domElement);
 
 // Create a rotating cube
 const geometry = new THREE.BoxGeometry(1,1,1);
@@ -120,10 +136,6 @@ let resize = ()=>{
     renderer.setSize(w, h, false);
     composer.setSize(w, h)
 }
-
-resize();
-
-window.addEventListener('resize', resize);
 
 let listeners = {}
 
@@ -224,6 +236,12 @@ let ambientLight = new THREE.AmbientLight('white',.01);
 
 scene.add(ambientLight);
 
-renderer.setAnimationLoop(render);
 
-export {THREE, scene, camera, renderer, composer, cube, urlparams, loadGLTF, mixer, events, resize, tweakpane, pointLight, ambientLight, directionalLight, controls}
+let start=()=>{
+    document.body.appendChild(renderer.domElement);
+    resize();
+    window.addEventListener('resize', resize);
+    renderer.setAnimationLoop(render);
+}
+
+export {THREE, scene, camera, renderer, composer, cube, urlparams, loadGLTF, mixer, events, resize, tweakpane, pointLight, ambientLight, directionalLight, controls, start}

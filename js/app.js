@@ -1,4 +1,4 @@
-import {THREE, events, scene, meshes, tweakpane} from "./ll-viewer.js"
+import {THREE, events, scene, meshes, tweakpane, start} from "./ll-viewer.js"
 
 let {min,max}=Math;
 let lastClicked;
@@ -20,7 +20,6 @@ events.listen('click', (e,{object,event})=>{
     }
     if(event.button==2){
         //Delete the nodes wires
-        
         let deadPool=[]
         for(let i=0,w = model.wires,wi;(wi=w[i])&&(i<w.length);i++)
             if(((wi.pin0==ename)||(wi.pin1==ename)) && (!wi.hidden))
@@ -39,8 +38,6 @@ let wires = new Wires({
 
 let irnd = (rng)=>((Math.random() * rng) | 0)
 
-
-
 let setGlow = (name,glow)=>{
 
     let mled = getVisualNode(name);
@@ -50,7 +47,6 @@ let setGlow = (name,glow)=>{
         mled.glowMaterial.emissiveMap = mled.material.map;
         mled.glowMaterial.emissive.set('white');
         mled.glowMaterial.emissiveIntensity = 5;
-        //console.log("LIT:",name)
     }
     if (glow) {
         if (!mled.saveMaterial) {
@@ -82,26 +78,31 @@ let pins = Object.entries(nodesByName).filter(([key,value])=>key.startsWith('PIN
 const btn = tweakpane.addButton({
     title: 'test',
     label: 'test',
-    // optional
 })
 
 let wireList = []
 btn.on('click', ()=>{
-    for (let i = 0; i < 10; i++)
-        wireList.push(new wires.Wire(pins[irnd(pins.length)].position,pins[irnd(pins.length)].position))
+    for (let i = 0; i < 10; i++){
+        let pin0=pins[irnd(pins.length)];
+        let pin1=pins[irnd(pins.length)];
+        if(pin0==pin1)continue;
+        let nwire = new wires.Wire(pin0.position,pin1.position)
+        nwire.wire = addWire(pin0.name, pin1.name);
+        wireList.push(nwire)
+    }
+    if(wireList.length>500)
+        alert("Thrax asks: What's your deal?")
 }
 );
 
 const clearbtn = tweakpane.addButton({
     title: 'clear',
     label: 'clear',
-    // optional
 })
 
 clearbtn.on('click', ()=>{
     reset();
     rebuildView()
-
 }
 );
 
@@ -328,7 +329,6 @@ let saveState = ()=>{
 const loadbutton = tweakpane.addButton({
     title: 'load',
     label: 'load',
-    // optional
 })
 
 loadbutton.on('click', loadStateLS);
@@ -336,7 +336,6 @@ loadbutton.on('click', loadStateLS);
 const savebutton = tweakpane.addButton({
     title: 'save',
     label: 'save',
-    // optional
 })
 savebutton.on('click', saveState);
 
@@ -437,3 +436,8 @@ let gateOps={
     XOR :(signals,i0,i1)=>signals[i0] != signals[i1]   ?1:0,
     NOT :(signals,i0,i1)=>signals[i0] ? 0 : 1,
 }
+
+
+
+
+start();

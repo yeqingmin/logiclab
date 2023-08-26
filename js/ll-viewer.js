@@ -132,4 +132,4 @@ events.onmousedown = raycast
 events.onmousemove = raycast
 events.onmouseup = raycast
 
-export {THREE, scene, meshes, events, tweakpane}
+export {THREE, scene, meshes, events, tweakpane, start}

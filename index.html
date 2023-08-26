@@ -1,19 +1,7 @@
 <!DOCTYPE html>
 <html lang="us-en">
 <head>
-    <title>logiclab</title>
-    <script async src="https://unpkg.com/es-module-shims@1.7.2/dist/es-module-shims.js"></script>
-    <script type="importmap">
-    {
-        "imports": {
-          "three": "https://unpkg.com/three@0.155/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.155/examples/jsm/",
-          "dat.gui": "https://unpkg.com/dat.gui@0.7.9/build/dat.gui.module.js"
-        }
-    }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.10/dist/tweakpane.min.js"></script>
-
+    <title>logic lab simulator by thrax</title>
     <style>
         html, body {
             width: 100%;
@@ -23,6 +11,7 @@
             background-repeat: repeat;
         }
         body {
+            font-family: 'Verdana';font-size: 22px;
             position: relative;
             margin: 0;
             overflow: hidden;
@@ -34,9 +23,27 @@
             transform: translate(-50%, -50%);
             z-index: 2;
         }
+        #loader{
+            color:white;
+            display:table;
+            margin:0 auto;
+            align-items: center;
+        }
     </style>
+    <script async src="https://unpkg.com/es-module-shims@1.7.2/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+          "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/",
+          "dat.gui": "https://unpkg.com/dat.gui@0.7.9/build/dat.gui.module.js"
+        }
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.1.10/dist/tweakpane.min.js"></script>
 </head>
 <body>
 <script type="module" src="./js/app.js"></script>
+<span id='loader'>lloading...</span>
 </body>
 </html>
