@@ -19,7 +19,7 @@ export default function Wires({THREE, scene}) {
         //wireframe:true,
     });
 
-    let materials = [mkMat(), mkMat(0x00ff20), mkMat(0x2000ff), mkMat(0x80d0ff), mkMat(0x8f00d0), mkMat(0xff8000)]
+    let materials = []
     kulers.forEach(k=>materials.push(mkMat(k)))
     let npath = 7;
     let nsegs = 6;

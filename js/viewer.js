@@ -9,17 +9,15 @@ import Stats from 'three/addons/libs/stats.module'
 //import Draggable from "./draggable.js"
 //import {SkeletonHelper} from 'three/addons/helpers/SkeletonHelper.js';
 
-let loadCount=0;
-THREE.DefaultLoadingManager.onStart=
-THREE.DefaultLoadingManager.onLoad=
-THREE.DefaultLoadingManager.onProgress=(a,b,c)=>{
+let loadCount = 0;
+THREE.DefaultLoadingManager.onStart = THREE.DefaultLoadingManager.onLoad = THREE.DefaultLoadingManager.onProgress = (a,b,c)=>{
     loadCount++
-    loader.innerText='lloading...'.slice(0,8+(loadCount%4))
+    loader.innerText = 'lloading...'.slice(0, 8 + (loadCount % 4))
     //console.log(loader.innerText)
 }
-THREE.DefaultLoadingManager.onError=(a,b,c)=>{
-    loader.innerText='error:'+a+b+c;
-    loader.style.color='red'
+THREE.DefaultLoadingManager.onError = (a,b,c)=>{
+    loader.innerText = 'error:' + a + b + c;
+    loader.style.color = 'red'
 }
 
 let tweakpane = new Tweakpane.Pane({//container: document.querySelector('#tweakpane'),
@@ -27,7 +25,10 @@ let tweakpane = new Tweakpane.Pane({//container: document.querySelector('#tweakp
 //Draggable(tweakpane.element)
 tweakpane.element.parentElement.style.zIndex = 10;
 
-let folder = tweakpane.addFolder({title:'options',expanded:false});
+let folder = tweakpane.addFolder({
+    title: 'options',
+    expanded: false
+});
 
 tweakpane = folder;
 tweakpane.Pane = Tweakpane.Pane;
@@ -66,7 +67,6 @@ const renderer = new THREE.WebGLRenderer({
 //if(window.devicePixelRatio>1)
 //    renderer.setPixelRatio(1);//window.devicePixelRatio * 2.);
 
-
 // Create a rotating cube
 const geometry = new THREE.BoxGeometry(1,1,1);
 const material = new THREE.MeshBasicMaterial({
@@ -88,8 +88,8 @@ const bloomPass = new UnrealBloomPass(bloomSize,params.strength,params.radius,pa
 bloomPass.threshold = params.threshold;
 bloomPass.strength = params.strength;
 bloomPass.radius = params.radius;
-bloomPass.setSize(2000,1000)
-renderer.toneMappingExposure=params.exposure;
+bloomPass.setSize(2000, 1000)
+renderer.toneMappingExposure = params.exposure;
 tweakpane.addInput(bloomPass, 'threshold', {
     min: 0.,
     max: 5
@@ -101,7 +101,7 @@ tweakpane.addInput(bloomPass, 'strength', {
 tweakpane.addInput(bloomPass, 'radius', {
     min: 0.,
     max: 1.5,
-    step:.0001,
+    step: .0001,
 })
 tweakpane.addInput(params, 'exposure', {
     min: .5,
@@ -220,7 +220,6 @@ let shadowSetup = (light,mapSize=1024,viewSize=50)=>{
     light.castShadow = true;
     // default false
 }
-;
 
 let directionalLight = new THREE.DirectionalLight();
 directionalLight.position.set(0, 30, 20)
@@ -236,12 +235,11 @@ let ambientLight = new THREE.AmbientLight('white',.01);
 
 scene.add(ambientLight);
 
-
-let start=()=>{
+let start = ()=>{
     document.body.appendChild(renderer.domElement);
     resize();
     window.addEventListener('resize', resize);
-    renderer.compile(scene,camera);
+    renderer.compile(scene, camera);
     renderer.setAnimationLoop(render);
 }
 
