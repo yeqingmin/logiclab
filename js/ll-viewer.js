@@ -1,4 +1,4 @@
-import*as Viewer from "./viewer.js"
+import*as Viewer from "./three-viewer.js"
 let {THREE, scene, camera, renderer, composer, controls, cube, urlparams, loadGLTF, mixer, resize, events, tweakpane, pointLight, ambientLight, start} = Viewer;
 
 camera.position.set(0, 3.5, 0);

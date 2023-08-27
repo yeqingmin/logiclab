@@ -31,7 +31,6 @@ let simulate=function* (model,debug,componentSignalChanged){
         let touchedGates={}
         //Update the wires
         for(let i=0;i<a.length;i++){
-            yield;
             let e = a[i];
             let f0=frames[e.pin0]|0;
             let f1=frames[e.pin1]|0;
@@ -62,6 +61,7 @@ let simulate=function* (model,debug,componentSignalChanged){
             debug.debug && log.push(`${from}-->${to},${sig},${simFrame}`)
             //console.log()
             
+            yield;
         }
         //Update the gates...
         if(!hadUpdate){

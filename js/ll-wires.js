@@ -1,13 +1,13 @@
 import*as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js"
 
-let kulers = `#F39189
-#BB8082
-#6E7582
-#046582
-#9FC088
-#E8C07D
-#CC704B
-#614124`.split('\n')
+let kulers = `#1D5D9B
+#75C2F6
+#F4D160
+#FBEEAC
+#22A699
+#F2BE22
+#F29727
+#F24C3D`.split('\n')
 
 let {sin, cos, abs, max, min, PI} = Math;
 let rnd = (rng)=>(Math.random() * rng)

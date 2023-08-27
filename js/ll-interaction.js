@@ -240,10 +240,10 @@ reset();
 rebuildView()
 
 
-let loadStateLS = ()=>{
-    if (localStorage.logiclab) {
+let loadStateLS = (name='logiclab')=>{
+    if (localStorage[name]) {
         try {
-            ctx.model = JSON.parse(localStorage.logiclab)
+            ctx.model = JSON.parse(localStorage[name])
         } catch {
             reset();
         }
@@ -251,6 +251,9 @@ let loadStateLS = ()=>{
     rebuildView();
 }
 
+let loadStateDI = (name)=>{
+    import(name).then( (mod) => (ctx.model = structuredClone(mod.default))&&rebuildView() )
+}
 
 let saveState = ()=>{
     localStorage.logiclab = JSON.stringify(ctx.model)
@@ -268,6 +271,17 @@ const savebutton = tweakpane.addButton({
     label: 'save',
 })
 savebutton.on('click', saveState);
+
+tweakpane.addBlade({
+  view: 'list',
+  label: 'scene',
+  options: [
+    {text: '1 bit adder', value: './net-1bitadder.js'},
+  ],
+  value: '',
+}).on('change',(e)=>{
+    loadStateDI(e.value);
+});
 
 // Fire this puppy up.
 
