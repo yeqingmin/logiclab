@@ -5,7 +5,7 @@ http://www.technoblogy.com/show?4FFY
 
 You can view/play with it here: https://manthrax.github.io/logiclab/index.html
 
-![image](https://github.com/manthrax/logiclab/assets/350247/3a76a563-de76-4a3d-b167-435646fed073)
+[![image](https://github.com/manthrax/logiclab/assets/350247/3a76a563-de76-4a3d-b167-435646fed073)](https://manthrax.github.io/logiclab/index.html)
 
 I saw this hardware device in a post on hacker news, and figured I wanted to play with it, but didn't have one.. so I made one in threejs.
 
