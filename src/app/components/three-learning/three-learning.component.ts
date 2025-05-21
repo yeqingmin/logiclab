@@ -1,19 +1,21 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Pane } from 'tweakpane';
+import { InteractionService } from '../../services/interaction.service';
+import { SimulatorService } from '../../services/simulator.service';
+import { WiresService } from '../../services/wires.service';
 
 @Component({
   selector: 'app-three-learning',
   templateUrl: './three-learning.component.html',
   styleUrls: ['./three-learning.component.css']
 })
-export class ThreeLearningComponent implements OnInit, AfterViewInit {
+export class ThreeLearningComponent implements OnInit, AfterViewInit, OnDestroy {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
@@ -43,7 +45,12 @@ export class ThreeLearningComponent implements OnInit, AfterViewInit {
     }
   };
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    private elementRef: ElementRef,
+    private interactionService: InteractionService,
+    private simulatorService: SimulatorService,
+    private wiresService: WiresService
+  ) {}
 
   ngOnInit() {
     this.initScene();
